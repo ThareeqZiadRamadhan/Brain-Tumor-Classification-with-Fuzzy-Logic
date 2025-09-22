@@ -2,7 +2,7 @@ import streamlit as st
 import tensorflow as tf
 import joblib
 import numpy as np
-from tensorflow.keras.preprocessing import image
+from tensorflow.keras.utils import load_img, img_to_array # type: ignore
 import os
 
 # 1. Muat model CNN yang sudah dilatih
@@ -17,16 +17,16 @@ class_names = ["cardboard", "glass", "metal", "paper", "plastic", "trash"]  # Se
 
 # Fungsi untuk memproses gambar untuk CNN
 def preprocess_image(img_path, target_size=(128, 128)):
-    img = image.load_img(img_path, target_size=target_size)
-    img_array = image.img_to_array(img)
+    img = load_img(img_path, target_size=target_size)  # Updated function
+    img_array = img_to_array(img)  # Updated function
     img_array = np.expand_dims(img_array, axis=0)  # Menambah dimensi batch
     img_array = img_array / 255.0  # Normalisasi
     return img_array
 
 # Fungsi untuk memproses gambar untuk Random Forest (ekstraksi fitur)
 def extract_features_for_rf(img_path, target_size=(128, 128)):
-    img = image.load_img(img_path, target_size=target_size)
-    img_array = image.img_to_array(img)
+    img = load_img(img_path, target_size=target_size)  # Updated function
+    img_array = img_to_array(img)  # Updated function
     img_array = np.expand_dims(img_array, axis=0)
     
     # Ekstraksi fitur menggunakan CNN
